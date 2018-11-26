@@ -11,4 +11,8 @@ public interface IBuyerDAO {
 	public long selectTotalRecord();
 	
 	public BuyerVO selectBuyer(String buyer_id);
+	
+	public int insertBuyer(BuyerVO buyer);
+	
+	public int deleteBuyer(String buyer_id);
 }

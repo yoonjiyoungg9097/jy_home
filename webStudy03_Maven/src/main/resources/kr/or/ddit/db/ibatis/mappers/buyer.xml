@@ -7,7 +7,7 @@
 		FROM buyer
 	</sql>
 	
-	<select id="selectBuyer" parameterClass="String" resultClass="BuyerVO"> 
+	<select id="selectBuyer" parameterClass="String" resultClass="buyerVO"> 
 		<include refid="Buyer.selectBuyerFrag"/>         
 		WHERE BUYER_ID = #id#
 	</select>
@@ -16,7 +16,7 @@
 		FROM	Buyer
 	</select>
 	
-	<select id="selectAllBuyer" resultClass="BuyerVO" parameterClass="pagingVO">
+	<select id="selectAllBuyer" resultClass="buyerVO" parameterClass="pagingVO">
 		SELECT B.*
 		FROM (
 		SELECT ROWNUM RNUM, A.*
@@ -62,10 +62,11 @@
 <!-- 		where mem_id = #mem_id# -->
 <!-- 	</update> -->
 	
-<!-- 	<delete id="deleteBuyer" parameterClass="String"> -->
-<!-- 		update buyer -->
-<!-- 		set -->
-<!-- 		buyer_delete = 'Y' -->
-<!-- 		where buyer_id = #buyer_id# -->
-<!-- 	</delete> -->
+	<delete id="deleteBuyer" parameterClass="String">
+		UPDATE BUYER
+		SET
+		BUYER_DELETE = 'Y'
+		WHERE BUYER_ID = #buyer_id#
+	</delete>
+
 </sqlMap>

@@ -36,5 +36,21 @@ public class BuyerDAOImpl implements IBuyerDAO{
 				throw new RuntimeException(e);
 			}
 	}
+	@Override
+	public int insertBuyer(BuyerVO buyer) {
+		try {
+				return (int) sqlMapClient.queryForObject("Buyer.insertBuyer", buyer);
+			}catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+	}
+	@Override
+	public int deleteBuyer(String buyer_id) {
+		try {
+				return sqlMapClient.delete("Buyer.deleteBuyer", buyer_id);
+			}catch (SQLException e) {
+				throw new RuntimeException(e);
+			}
+	}
 	
 }
