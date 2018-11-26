@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Buyer">
+	<sql id="selectBuyerFrag">
+		SELECT
+		*                              
+		FROM buyer
+	</sql>
+	
+	<select id="selectBuyer" parameterClass="String" resultClass="BuyerVO"> 
+		<include refid="Buyer.selectBuyerFrag"/>         
+		WHERE BUYER_ID = #id#
+	</select>
+	<select id="selectTotalRecord" resultClass="long">
+		SELECT COUNT(*)
+		FROM	Buyer
+	</select>
+	
+	<select id="selectAllBuyer" resultClass="BuyerVO" parameterClass="pagingVO">
+		SELECT B.*
+		FROM (
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+		<include refid="Buyer.selectBuyerFrag"/> 
+		ORDER BY ROWID DESC ) A ) B
+		<![CDATA[
+		WHERE RNUM >= #startRow# AND RNUM <= #endRow#
+		]]>
+	</select>
+	
+<!-- 	<insert id="insertBuyer" parameterClass="BuyerVO" > -->
+<!-- 		INSERT INTO Buyer ( -->
+<!--     		MEM_ID,  MEM_PASS,  MEM_NAME, -->
+<!--     		MEM_REGNO1,  MEM_REGNO2,  MEM_BIR, -->
+<!--     		MEM_ZIP,  MEM_ADD1,  MEM_ADD2, -->
+<!--     		MEM_HOMETEL,  MEM_COMTEL,  MEM_HP, -->
+<!--     		MEM_MAIL,  MEM_JOB,  MEM_LIKE,  MEM_MEMORIAL, -->
+<!--    		 	MEM_MEMORIALDAY,  MEM_MILEAGE, MEM_AUTH -->
+<!-- 		) VALUES ( -->
+<!-- 			#mem_id#, #mem_pass#, #mem_name#, -->
+<!--     		#mem_regno1#,#mem_regno2#,  TO_DATE(#mem_bir#,'YYYY-MM-DD'), -->
+<!--     		#mem_zip#,#mem_add1#,#mem_add2#, -->
+<!--     		#mem_hometel#,#mem_comtel#,#mem_hp#, -->
+<!--     		#mem_mail#,#mem_job#,#mem_like#,#mem_memorial#, -->
+<!--    		 	TO_DATE(#mem_memorialday#, 'YYYY-MM-DD'), 1000, 'ROLE_USER' -->
+<!-- 		) -->
+<!-- 	</insert> -->
+	
+<!-- 	<update id="updateBuyer" parameterClass="BuyerVO"> -->
+<!-- 		update member set mem_name=#mem_name#,  -->
+<!--                   mem_zip=#mem_zip#,  -->
+<!--                   mem_add1=#mem_add1#, -->
+<!--                   mem_add2=#mem_add2#, -->
+<!--                   mem_hometel=#mem_hometel#, -->
+<!--                   mem_comtel=#mem_comtel#, -->
+<!--                   mem_hp=#mem_hp#,  -->
+<!--                   mem_mail=#mem_mail#, -->
+<!--                   mem_job=#mem_job#, -->
+<!--                   mem_like=#mem_like#,  -->
+<!--                   mem_memorial=#mem_memorial#, -->
+<!--                   mem_memorialday=TO_DATE(#mem_memorialday#, 'YYYY-MM-DD') -->
+<!-- 		where mem_id = #mem_id# -->
+<!-- 	</update> -->
+	
+<!-- 	<delete id="deleteBuyer" parameterClass="String"> -->
+<!-- 		update buyer -->
+<!-- 		set -->
+<!-- 		buyer_delete = 'Y' -->
+<!-- 		where buyer_id = #buyer_id# -->
+<!-- 	</delete> -->
+</sqlMap>

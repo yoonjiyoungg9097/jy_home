@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Member">
+	<sql id="selectMemberFrag">
+		SELECT                                   
+	    MEM_ID, MEM_PASS, MEM_NAME, MEM_REGNO1,    
+	    MEM_REGNO2, TO_CHAR(MEM_BIR,'YYYY-MM-DD')MEM_BIR, MEM_ZIP, MEM_ADD1,   
+	    MEM_ADD2, MEM_HOMETEL, MEM_COMTEL, MEM_HP,
+	    MEM_MAIL, MEM_JOB, MEM_LIKE, MEM_MEMORIAL, 
+	    TO_CHAR(MEM_MEMORIALDAY,'YYYY-MM-DD')MEM_MEMORIALDAY, MEM_MILEAGE, MEM_DELETE, MEM_AUTH 
+		FROM MEMBER
+	</sql>
+	
+	<sql id="searchFrag">
+		<dynamic prepend="WHERE">
+			<isNotEmpty property="searchWord">
+				<isEqual property="searchType" compareValue="name">
+					MEM_NAME like '%'|| #searchWord# ||'%'
+				</isEqual>
+				<isEqual property="searchType" compareValue="address">
+					MEM_ADD1 like '%'|| #searchWord# ||'%'
+				</isEqual>
+				<isEqual property="searchType" compareValue="all">
+					MEM_NAME like '%'|| #searchWord# ||'%'
+					OR
+					MEM_ADD1 like '%'|| #searchWord# ||'%'
+				</isEqual>
+			</isNotEmpty>
+		</dynamic> 
+	</sql>
+	
+	<select id="selectMember" parameterClass="String" resultClass="MemberVO"> 
+		<include refid="Member.selectMemberFrag"/>         
+		WHERE MEM_ID = #id#
+	</select>
+	<select id="selectTotalRecord" resultClass="long" parameterClass="pagingVO">
+		SELECT COUNT(*)
+		FROM	MEMBER
+		<include refid="Member.searchFrag"/>
+	</select>
+	
+	<select id="selectAllMember" resultClass="MemberVO" parameterClass="pagingVO">
+		SELECT B.*
+		FROM (
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+		<include refid="Member.selectMemberFrag"/>
+		<include refid="Member.searchFrag"/>
+		ORDER BY ROWID DESC ) A ) B
+		<![CDATA[
+		WHERE RNUM >= #startRow# AND RNUM <= #endRow#
+		]]>
+	</select>
+	
+	<insert id="insertMember" parameterClass="MemberVO" >
+		INSERT INTO MEMBER (
+    		MEM_ID,  MEM_PASS,  MEM_NAME,
+    		MEM_REGNO1,  MEM_REGNO2,  MEM_BIR,
+    		MEM_ZIP,  MEM_ADD1,  MEM_ADD2,
+    		MEM_HOMETEL,  MEM_COMTEL,  MEM_HP,
+    		MEM_MAIL,  MEM_JOB,  MEM_LIKE,  MEM_MEMORIAL,
+   		 	MEM_MEMORIALDAY,  MEM_MILEAGE, MEM_AUTH
+		) VALUES (
+			#mem_id#, #mem_pass#, #mem_name#,
+    		#mem_regno1#,#mem_regno2#,  TO_DATE(#mem_bir#,'YYYY-MM-DD'),
+    		#mem_zip#,#mem_add1#,#mem_add2#,
+    		#mem_hometel#,#mem_comtel#,#mem_hp#,
+    		#mem_mail#,#mem_job#,#mem_like#,#mem_memorial#,
+   		 	TO_DATE(#mem_memorialday#, 'YYYY-MM-DD'), 1000, 'ROLE_USER'
+		)
+	</insert>
+	
+	<update id="updateMember" parameterClass="MemberVO">
+		update member set mem_name=#mem_name#, 
+                  mem_zip=#mem_zip#, 
+                  mem_add1=#mem_add1#,
+                  mem_add2=#mem_add2#,
+                  mem_hometel=#mem_hometel#,
+                  mem_comtel=#mem_comtel#,
+                  mem_hp=#mem_hp#, 
+                  mem_mail=#mem_mail#,
+                  mem_job=#mem_job#,
+                  mem_like=#mem_like#, 
+                  mem_memorial=#mem_memorial#,
+                  mem_memorialday=TO_DATE(#mem_memorialday#, 'YYYY-MM-DD')
+		where mem_id = #mem_id#
+	</update>
+	
+	<delete id="deleteMember" parameterClass="String">
+		update member
+		set
+		mem_delete = 'Y'
+		where mem_id = #mem_id#
+	</delete>
+</sqlMap>
