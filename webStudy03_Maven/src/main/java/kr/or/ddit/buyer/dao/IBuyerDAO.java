@@ -15,4 +15,6 @@ public interface IBuyerDAO {
 	public int insertBuyer(BuyerVO buyer);
 	
 	public int deleteBuyer(String buyer_id);
+	
+	public int updateBuyer(BuyerVO buyer);
 }

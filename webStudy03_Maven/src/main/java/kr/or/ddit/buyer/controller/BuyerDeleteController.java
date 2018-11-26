@@ -26,23 +26,31 @@ public class BuyerDeleteController implements ICommandHandler {
 		Map<String, String> message = new LinkedHashMap<>();
 		//아이디 null검증
 		if(StringUtils.isBlank(buyer_id)) {
-			message.put("", "");
+			message.put("null", "다시 시도해주세요");
 		}
 		//B.L.L 과의 의존관계 형성
 		IBuyerService service = new BuyerServiceImpl();
 		//service를 통해 받아오는 ServiceResult값을 가져온다
 		ServiceResult result = service.removeBuyer(buyer_id);
+		
+		//보여줄 jsp를 값으로 반환하기 위해서 변수로 선언하고 각각의 조건문에서 값을 넣어줍니다
+		String view = null;
 		if(result.equals("PKNOTFOUND")) {
-			message = "존재하지 않는 아이디 입니다ㅜㅠ";
+			message.put("PKNOTFOUND", "존재하지 않는 아이디 입니다ㅜㅠ");
+			view = "buyer.buyerForm";
 		}else if(result.equals("OK")) {
 			//OK일때 delete성공 메세지 dispatcher방식(돌려줄 값이 없기 때문에)
-			message = "삭제성공이다!!";
+			message.put("OK", "삭제성공이다!!");
+			view = "redirect:buyer.buyerForm";
 		}else if(result.equals("FAILED")) {
 			//FAILED일때 서버 오류 메세지 이때 request스코프 영역에 삭제에 실패한 아이디를 담아준다 redirect방식
-			message = "서버 오류로 인해 삭제 실패되었으니 다시 시도해주세요 ㅜㅠ";
+			message.put("FAILED", "서버 오류로 인해 삭제 실패되었으니 다시 시도해주세요 ㅜㅠ");
+			view = "buyer.buyerForm";
 		}
 		
-		return null;
+		//message를 request 스코프 영역에 message라는 파라미터명으로 담아주세요
+		req.setAttribute("message", message);
+		return view;
 	}
 
 }

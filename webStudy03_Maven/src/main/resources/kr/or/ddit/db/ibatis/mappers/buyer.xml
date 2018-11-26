@@ -68,5 +68,24 @@
 		BUYER_DELETE = 'Y'
 		WHERE BUYER_ID = #buyer_id#
 	</delete>
+	
+	<update id="updateBuyer" parameterClass="buyerVO">
+		update buyer
+		set BUYER_DELETE = #buyer_delete#
+			BUYER_ID = #buyer_id#
+			BUYER_NAME = #buyer_name#
+			BUYER_LGU = #buyer_lgu#
+			BUYER_BANK = #buyer_bank#
+			BUYER_BANKNO = #buyer_bankno#
+			BUYER_BANKNAME = #buyer_bankname#
+			BUYER_ZIP = #buyer_zip#
+			BUYER_ADD1 = #buyer_add1#
+			BUYER_ADD2 = #buyer_add2#
+			BUYER_COMTEL = #buyer_comtel#
+			BUYER_FAX = #buyer_fax#
+			BUYER_MAIL = #buyer_mail#
+			BUYER_CHARGER = #buyer_charger#
+		WHERE BUYER_ID = #buyer_id#
+	</update>
 
 </sqlMap>
