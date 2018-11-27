@@ -33,22 +33,14 @@
 				session.removeAttribute("message");
 			}
 			if (StringUtils.isNotBlank(message)) {%>
-					alert("<%=message%>);
+					alert("<%=message%>");
 
 <%}%>
 // 	$("[type='date']").datePicker({
 // 			dateFormat : "yy-mm-dd"
 // 		});
 		$("#delBtn").on('click', function() {
-			var chk = confirm(" 정말로 탈퇴하시겠습니까? ");
-			if (chk) {
-				var password = prompt("비밀번호 입력");
-				if (password) {
-					document.delForm.mem_pass.value = password;
-					// 					$("[name='mem_pass']").val(password);
-					document.delForm.submit();
-				}
-			}
+			document.delForm.submit();
 		});
 	});
 </script>
@@ -68,12 +60,12 @@
 		if (mutable) {
 	%>
 	<form name="delForm" method="post"
-		action="<%=request.getContextPath()%>/member/memberDelete.do">
-		<input type="hidden" name="mem_id" value="<%=member.getMem_id()%>" />
-		<input type="hidden" name="mem_pass" />
+		action="<%=request.getContextPath()%>/buyer/buyerDelete.do">
+		<input type="hidden" name="buyer_id" value="<%=buyer.getBuyer_id()%>" />
+		<input type="hidden" name="buyer" value="윤지영" />
 	</form>
 	<form action="<%=request.getContextPath()%>/member/memberUpdate.do"
-		method="post">
+		method="post" name="viewForm" >
 		<%
 			}
 		%>
@@ -147,7 +139,7 @@
          </tr>
          <tr>
             <th>활동여부</th>
-            <td><%="Y".equals(member.getMem_delete()) ? "탈" : "활"%></td>
+            <td><%="Y".equals(buyer.getBuyer_delete()) ? "탈" : "활"%></td>
          </tr>
 
 			<tr>

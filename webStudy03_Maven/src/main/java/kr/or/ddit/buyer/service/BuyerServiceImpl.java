@@ -43,12 +43,14 @@ public class BuyerServiceImpl implements IBuyerService{
 			result = ServiceResult.PKNOTFOUND;
 		}else {
 			int delResult = dao.deleteBuyer(buyer_id);
+			System.out.println(delResult);
 			if(delResult>0) {
 				result = ServiceResult.OK;
 			}else {
 				result = ServiceResult.FAILED;
 			}
 		}
+		System.out.println(result);
 		return result;
 	}
 }
