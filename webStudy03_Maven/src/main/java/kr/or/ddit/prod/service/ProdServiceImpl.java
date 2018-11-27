@@ -2,6 +2,8 @@ package kr.or.ddit.prod.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import kr.or.ddit.CommonException;
 import kr.or.ddit.ServiceResult;
 import kr.or.ddit.prod.dao.IProdDAO;
@@ -14,7 +16,16 @@ public class ProdServiceImpl implements IProdService {
 
 	@Override
 	public ServiceResult createProd(ProdVO prod) {
-		return null;
+		//정상적으로 insert되었을때 insert된 정보가 담긴 vo가 반환되고
+		//정상적으로 되지 않았을때는 null 
+		ServiceResult result = null;
+		String insertRes = prodDAO.insertProd(prod);
+		if(StringUtils.isNotBlank(insertRes)) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
 	}
 
 	@Override

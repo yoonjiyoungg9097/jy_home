@@ -136,6 +136,17 @@
 				value="<%=prod.getProd_mileage()%>" /><span class="error"><%=errors.get("prod_mileage")%></span></td>
 		</tr>
 	</table>
+	<%
+		boolean authorized = false;
+		MemberVO authMember = (MemberVO)session.getAttribute("authMember");	
+// 		if(authMember!=null && "ROLE_ADMIN".equals(authMember.getMem_auth())){
+		authorized = authMember!=null && "ROLE_ADMIN".equals(authMember.getMem_auth());
+			authorized = true;
+			
+		if(authorized){
+			
+		}
+	%>
 	<h4>구매자 목록</h4>
 	<table>
 		<thead>
@@ -173,5 +184,6 @@
 			%>
 		</tbody>
 	</table>
+
 </body>
 </html>

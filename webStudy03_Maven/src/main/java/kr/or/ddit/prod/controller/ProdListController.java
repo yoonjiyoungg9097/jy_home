@@ -1,6 +1,8 @@
 package kr.or.ddit.prod.controller;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kr.or.ddit.mvc.ICommandHandler;
 import kr.or.ddit.prod.dao.IOtherDAO;
@@ -47,7 +51,6 @@ public class ProdListController implements ICommandHandler {
 		List<BuyerVO>buyerList = otherDAO.selectBuyerList(null);
 		req.setAttribute("lprodList", lprodList);
 		req.setAttribute("buyerList", buyerList);
-		
 		long totalRecord = service.retrieveProdCount(pagingVO);
 		pagingVO.setTotalRecord(totalRecord);
 		
@@ -57,8 +60,29 @@ public class ProdListController implements ICommandHandler {
 		
 		
 		//request 스코프 영역에 pagingVO로 담아준다
-		req.setAttribute("prodList", prodList);
-		req.setAttribute("pagingVO", pagingVO);
+//		req.setAttribute("prodList", prodList);
+		pagingVO.setDataList(prodList);
+		
+		//Accept 헤더를 통해 동기/비동기 요청 여부를 확인하고,
+		String accept = req.getHeader("Accept");
+		if(StringUtils.containsIgnoreCase(accept, "json")) {
+			//비동기요청이라면, PagingVO를 marshalling한 JSON응답이 전송되도록
+			//JSON
+			resp.setContentType("application/json;charset=UTF-8");
+			ObjectMapper mapper = new ObjectMapper(); //마샬링(java->json) 언마샬링
+			try (
+					PrintWriter out = resp.getWriter();
+			){
+				mapper.writeValue(out, pagingVO);
+			}
+			return null;
+		}else {
+			//동기요청이라면, View Layer를 통해 응답이 전송
+			//HTML
+			req.setAttribute("pagingVO", pagingVO);
+			return "prod/prodList";
+		}
+		
 		
 		
 		
@@ -67,6 +91,5 @@ public class ProdListController implements ICommandHandler {
 //				currentPage = Integer.parseInt(req.getParameter("page"));
 //			}
 //		}
-		return "prod/prodList";
 	}
 }

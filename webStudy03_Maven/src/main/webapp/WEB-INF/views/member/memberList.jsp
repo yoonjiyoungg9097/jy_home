@@ -71,12 +71,12 @@
                <select name="searchType">
                		<option value="all">전체</option>
                		<option value="name">이름</option>
-               		<option value="address" >지역</option>
+               		<option value="address">지역</option>
                </select>
                <script type="text/javascript">
                		document.searchForm.searchType.value = "<%=Objects.toString(pagingVO.getSearchType(), "all")%>";
                </script>
-               <input type="text" name="searchWord" value="<%= Objects.toString(pagingVO.getSearchWord())%>"/>
+               <input type="text" name="searchWord" value="<%= Objects.toString(pagingVO.getSearchWord(),"")%>"/>
                <input type="submit" value="검색"/>
                </form> 
              </td>
