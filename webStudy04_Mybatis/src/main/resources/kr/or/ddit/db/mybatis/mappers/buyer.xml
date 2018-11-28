@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.ddit.buyer.dao.IBuyerDAO">
+	<sql id="selectBuyerFrag">
+		SELECT
+		*                              
+		FROM buyer
+	</sql>
+	
+	<select id="selectBuyer" parameterType="String" resultType="buyerVO"> 
+		<include refid="kr.or.ddit.buyer.dao.IBuyerDAO.selectBuyerFrag"/>         
+		WHERE BUYER_ID = #{id}
+	</select>
+	<select id="selectTotalRecord" resultType="long">
+		SELECT COUNT(*)
+		FROM	Buyer
+	</select>
+	
+	<select id="selectAllBuyer" resultType="buyerVO" parameterType="pagingVO">
+		SELECT B.*
+		FROM (
+		SELECT ROWNUM RNUM, A.*
+		FROM (
+		<include refid="kr.or.ddit.buyer.dao.IBuyerDAO.selectBuyerFrag"/> 
+		ORDER BY ROWID DESC ) A ) B
+		<![CDATA[
+		WHERE RNUM >= #{startRow} AND RNUM <= #{endRow}
+		]]>
+	</select>
+</mapper>

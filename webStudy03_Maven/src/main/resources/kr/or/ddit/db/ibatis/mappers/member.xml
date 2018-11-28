@@ -54,6 +54,7 @@
 		<result property="mem_mileage" column="MEM_MILEAGE"/>
 		<result property="mem_delete" column="MEM_DELETE"/>
 		<result property="mem_auth" column="MEM_AUTH"/>
+		
 		<result property="prodList" resultMap="Member.prodMap" javaType="java.util.List"/>
 	</resultMap>
 	

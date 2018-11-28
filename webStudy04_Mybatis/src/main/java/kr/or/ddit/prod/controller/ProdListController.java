@@ -47,7 +47,7 @@ public class ProdListController implements ICommandHandler {
 		
 		IProdService service = new ProdServiceImpl();
 		IOtherDAO otherDAO = new OtherDAOImpl();
-		Map<String, String>lprodList = otherDAO.selectLprodList();
+		List<Map<String, Object>>lprodList = otherDAO.selectLprodList();
 		List<BuyerVO>buyerList = otherDAO.selectBuyerList(null);
 		req.setAttribute("lprodList", lprodList);
 		req.setAttribute("buyerList", buyerList);
