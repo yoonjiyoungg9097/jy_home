@@ -26,7 +26,7 @@ public class ProdViewController implements ICommandHandler {
 		IProdService service = new ProdServiceImpl();
 		prodVO = service.retrieveProd(prod_id);
 		
-		req.setAttribute("prodVO", prodVO);
+		req.setAttribute("prod", prodVO);
 		return "prod/prodView";
 	}
 

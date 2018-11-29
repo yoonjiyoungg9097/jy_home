@@ -1,14 +1,10 @@
-<%@page import="kr.or.ddit.vo.MemberVO"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.Map"%>
-<%@page import="kr.or.ddit.vo.ProdVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
-	ProdVO prod = (ProdVO) request.getAttribute("prodVO");
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%--
+	ProdVO prod = (ProdVO) request.getAttribute("prod");
 	Map<String, String> errors = new HashMap();
-%>
+--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,15 +15,15 @@
 	<table>
 		<tr>
 			<th>상품코드</th>
-			<td><%=prod.getProd_id()%></td>
+			<td>${prod.prod_id }</td>
 		</tr>
 		<tr>
 			<th>상품명</th>
-			<td><%=prod.getProd_name()%></td>
+			<td>${prod.prod_name }</td>
 		</tr>
 		<tr>
 			<th>품번</th>
-			<td><%=prod.getProd_lgu()%></td>
+			<td>${prod.prod_lgu }</td>
 		</tr>
 		<tr>
 			<th>거래처정보</th>
@@ -44,10 +40,10 @@
 
 					<tbody>
 						<tr>
-							<td><%=prod.getBuyer().getBuyer_name()%></td>
-							<td><%=prod.getBuyer().getBuyer_add1()%></td>
-							<td><%=prod.getBuyer().getBuyer_charger()%></td>
-							<td><%=prod.getBuyer().getBuyer_comtel()%></td>
+							<td>${prod.buyer.buyer_name }</td>
+							<td>${prod.buyer.buyer_add1 }</td>
+							<td>${prod.buyer.buyer_charger }</td>
+							<td>${prod.buyer.buyer_comtel }</td>
 						</tr>
 					</tbody>
 				</table>
@@ -55,70 +51,76 @@
 		</tr>
 		<tr>
 			<th>매입가</th>
-			<td><%=prod.getProd_cost()%></td>
+			<td>${prod.prod_cost }</td>
 		</tr>
 		<tr>
 			<th>판매가</th>
-			<td><%=prod.getProd_price()%></td>
+			<td>${prod.prod_price }</td>
 		</tr>
 		<tr>
 			<th>특가</th>
-			<td><%=prod.getProd_sale()%></td>
+			<td>${prod.prod_sale }</td>
 		</tr>
 		<tr>
 			<th>상품정보</th>
-			<td><%=prod.getProd_outline()%></td>
+			<td>${prod.prod_outline }</td>
 		</tr>
 		<tr>
 			<th>디테일</th>
-			<td><%=prod.getProd_detail()%></td>
+			<td>${prod.prod_detail }</td>
 		</tr>
 		<tr>
 			<th>이미지</th>
-			<td><%=prod.getProd_img()%></td>
+			<td>${prod.prod_img }</td>
 		</tr>
 		<tr>
 			<th>토탈스톡</th>
-			<td><%=prod.getProd_totalstock()%></td>
+			<td>${prod.prod_totalstock }</td>
 		</tr>
 		<tr>
 			<th>입고날자</th>
-			<td><%=prod.getProd_insdate()%></td>
+			<td>${prod.prod_insdate }</td>
 		</tr>
 		<tr>
 			<th>프롭스톡</th>
-			<td><%=prod.getProd_properstock()%></td>
+			<td>${prod.prod_properstock }</td>
 		</tr>
 		<tr>
 			<th>사잊브</th>
-			<td><%=prod.getProd_size()%></td>
+			<td>${prod.prod_size }</td>
 		</tr>
 		<tr>
 			<th>색</th>
-			<td><%=prod.getProd_color()%></td>
+			<td>${prod.prod_color }</td>
 		</tr>
 		<tr>
 			<th>배달</th>
-			<td><%=prod.getProd_delivery()%></td>
+			<td>${prod.prod_delivery }</td>
 		</tr>
 		<tr>
 			<th>유닛</th>
-			<td><%=prod.getProd_unit()%></td>
+			<td>${prod.prod_unit }</td>
 		</tr>
 		<tr>
 			<th>슈령</th>
-			<td><%=prod.getProd_qtyin()%></td>
+			<td>${prod.prod_qtyin }</td>
 		</tr>
 		<tr>
-			<th>스타일</th>
-			<td><%=prod.getProd_qtysale()%></td>
+			<th>qtysale</th>
+			<td>${prod.prod_qtysale }</td>
 		</tr>
 		<tr>
 			<th>마일리지</th>
-			<td><%=prod.getProd_mileage()%></td>
+			<td>${prod.prod_mileage }</td>
 		</tr>
 	</table>
-	<%
+	
+	<c:set var="authorized" value="false" scope="session"></c:set>
+	<c:if test="${not empty authMember and 'ROLE_ADMIN' eq authMember.mem_auth }">
+		<c:set var="authorized" value="true" scope="session"></c:set>
+	</c:if>
+	<c:if test="${authorized }">
+	<%--
 		boolean authorized = false;
 		MemberVO authMember = (MemberVO) session.getAttribute("authMember");
 		if (authMember != null && "ROLE_ADMIN".equals(authMember.getMem_auth())) {
@@ -127,9 +129,9 @@
 		}
 
 		if (true) {
-	%>
+	--%>
 	<input type="button" value="상품수정"
-		onclick="location.href='<%=request.getContextPath()%>/prod/prodUpdate.do?what=<%=prod.getProd_id()%>'">
+		onclick="location.href='${pageContext.request.contextPath}/prod/prodUpdate.do?what=${prod.prod_id }'">
 	<h4>구매자 목록</h4>
 	<table>
 		<thead>
@@ -143,29 +145,37 @@
 		</thead>
 
 		<tbody>
-			<%
+			<c:if test="${not empty prod.customers}">
+				<c:forEach items="${prod.customers }" var="emp">
+					<tr>
+						<td>${emp.mem_id}</td>
+						<td>${emp.mem_name}</td>
+						<td>${emp.address}</td>
+						<td>${emp.mem_hp}</td>
+						<td>${emp.mem_mail}</td>
+					</tr>
+				</c:forEach>
+			</c:if>
+			<%--
 				List<MemberVO> customers = prod.getCustomers();
 					if (customers != null && customers.size() > 0) {
 						for (MemberVO tmp : customers) {
-			%>
-			<tr>
-				<td><%=tmp.getMem_id()%></td>
-				<td><%=tmp.getMem_name()%></td>
-				<td><%=tmp.getAddress()%></td>
-				<td><%=tmp.getMem_hp()%></td>
-				<td><%=tmp.getMem_hp()%></td>
-			</tr>
-			<%
+							pageContext.setAttribute("emp", tmp);
+			--%>
+			<c:if test="${empty prod.customers}">
+			<%--
 				}
 					} else {
-			%>
+			--%>
 			<tr>
 				<td colspan="5">구매자가 없습니다 ㅜㅠ</td>
 			</tr>
-			<%
+			</c:if>
+			<%--
 				}
 				}
-			%>
+			--%>
+			</c:if>
 		</tbody>
 	</table>
 

@@ -1,19 +1,13 @@
-<%@page import="java.util.Map.Entry"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.List"%>
-<%@page import="kr.or.ddit.vo.BuyerVO"%>
-<%@page import="kr.or.ddit.vo.LprodVO"%>
-<%@page import="kr.or.ddit.vo.PagingInfoVO"%>
-<%@page import="kr.or.ddit.vo.ProdVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%--
 	PagingInfoVO<ProdVO> pagingVO = (PagingInfoVO)request.getAttribute("pagingVO");
 	List<ProdVO> prodList = pagingVO.getDataList();
 	
 	List<Map<String, Object>>lprodList = (List)request.getAttribute("lprodList");
 	List<BuyerVO>buyerList = (List)request.getAttribute("buyerList");
-%>
+--%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,12 +15,12 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <script type="text/javascript" 
-	src="<%=request.getContextPath() %>/js/jquery-3.3.1.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
-	function <%=pagingVO.getFuncName() %>(page) {
-		$("[name='searchForm']").find("[name=page]").val(page);
+	function ${pagingVO.funcName}(page){
+		$("[name='searchForm']").find("[name='page']").val(page);
 // 		document.searchForm.page.value=page;
 		$("[name='searchForm']").submit(); //이벤트 발샐??
 // 		document.searchForm.submit(); 함수 하나만 호출하고 끝
@@ -53,10 +47,11 @@
 		var listBody = $("#listBody");
 		listBody.on("click","tr", function(){
 			var prod_id = $(this).find("td:first").text();//find()는 자식중에서 특정조건에 맞는 것을 찾아온다
-			location.href = "<%= request.getContextPath()%>/prod/prodView.do?what="+prod_id; //클라이언트가 사용
+			location.href = "${pageContext.request.contextPath}/prod/prodView.do?what="+prod_id; //클라이언트가 사용
 		});
 		
 		var pattern = "";
+		var nar=$("#page2");
 		$("[name='searchForm']").on("submit", function(event){<!-- 	onsubmit="return false;" -->
 			event.preventDefault();//form은 기본적으로 동기전송방식인데 그거 없애는거
 			var data = $(this).serialize(); //queryString 생성
@@ -110,22 +105,30 @@
 	<select name="prod_lgu">
 <!-- 		<option value="p101">전자제품</option> -->
 		<option value="">분류선택</option>
-		<%
+		<c:forEach items="${lprodList}" var="lprod">
+		<%--
 			for(Map<String, Object> lprod : lprodList){
-				%>
-				<option value="<%=lprod.get("LPROD_GU")%>"><%=lprod.get("lprod_nm")%></option>
-				<%
+				pageContext.setAttribute("lprod", lprod);
+				//lprod가 현재 스코프 영역에 담아있지 않아서 el에서 사용하지 못하기때문에 사용하기 위해 페이지컨텍스트
+				//스코프 영역에 lprod라는 속성명을 가진 값을 담아준다
+				--%>
+				<option value="${lprod['LPROD_GU']}">${lprod["lprod_nm"]}</option>
+				</c:forEach>
+				<%--
 			}
-		%>
+		--%>
 	</select>
 	<select name="prod_buyer">
 <!-- 		<option value="p10101">삼성전자</option> -->
 		<option value="">거래처선택</option>
-		<%
+		<c:forEach items="${buyerList}" var="buyer">
+		<%--
 			for(BuyerVO buyer : buyerList){
-				%>
-					<option value="<%=buyer.getBuyer_id()%>" class="<%=buyer.getBuyer_lgu()%>"><%=buyer.getBuyer_name() %></option>
-				<% 
+				pageContext.setAttribute("buyer", buyer);
+				--%>
+					<option value="${buyer.buyer_id }" class="${buyer.buyer_lgu }">${buyer.buyer_name }</option>
+					</c:forEach>
+				<%--
 			}
 		%>
 	</select>
@@ -134,7 +137,7 @@
 	<input type="submit" value="검색"/>
 	</form>
 	<input type="button" class="btn btn-info" value="신규상품등록" 
-		onclick="location.href='<%=request.getContextPath()%>/prod/prodInsert.do';"/>
+		onclick="location.href='${pageContext.request.contextPath}/prod/prodInsert.do';"/>
 	<table class="table">
 		<thead>
 			<tr>
@@ -148,30 +151,31 @@
 			</tr>
 		</thead>
 
+		<c:set var="prodList" scope="request" value="${pagingVO.dataList }"></c:set>
 		<tbody id="listBody">
-			<%
+			<c:if test="${not empty prodList }">
+				<c:forEach items="${prodList}" var="prod">
+					<tr>
+           				<td>${prod.prod_id }</td>   
+               			<td>${prod.prod_name }</td>   
+               			<td>${prod.lprod_nm }</td>   
+               			<td>${prod.buyer_name }</td>   
+               			<td>${prod.prod_price }</td>   
+              			<td>${prod.prod_outline }</td>   
+               			<td>${prod.prod_mileage }</td>
+           			</tr>
+				</c:forEach>
+			</c:if>
+			<c:if test="${empty prodList }">
+           		<tr>
+           			<td colspan="7"> 조건에 맞는 상품이 없습니다 ㅜㅠ</td>
+           		</tr>
+			</c:if>
+			<%--
         		if(prodList.size()>0){
            			for(ProdVO prod:prodList){
-           				%>
-           				<tr>
-           					<td><%=prod.getProd_id() %></td>   
-               				<td><%=prod.getProd_name() %></td>   
-               				<td><%=prod.getLprod_nm() %></td>   
-               				<td><%=prod.getBuyer_name() %></td>   
-               				<td><%=prod.getProd_price() %></td>   
-              				<td><%=prod.getProd_outline() %></td>   
-               				<td><%=prod.getProd_mileage() %></td>
-           				</tr>
-           				<% 
-          			}
-       			}else{
-           			%>
-           			<tr>
-           				<td colspan="7"> 조건에 맞는 상품이 없습니다 ㅜㅠ</td>
-           			</tr>
-           			<% 
-        		}
-		%>
+           				pageContext.setAttribute("prod", prod);
+           				--%>
 			
 		</tbody>
 
@@ -180,7 +184,7 @@
 				<td colspan="7">
 				
 				<nav aria-label="Page navigation example" id="pagingArea">
-                   <%= pagingVO.getPagingHTML() %>
+                   ${pagingVO.pagingHTML} 
                </nav>
 				</td>
 			</tr>
