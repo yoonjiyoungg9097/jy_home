@@ -29,6 +29,7 @@ public class BuyerServiceImpl implements IBuyerService{
 
 	@Override
 	public ServiceResult registBuyer(BuyerVO buyer) {
+		BuyerVO buyerID = dao.selectBuyer(buyer.getBuyer_id());
 		ServiceResult result = null;
 		return null;
 	}
@@ -51,6 +52,18 @@ public class BuyerServiceImpl implements IBuyerService{
 			}
 		}
 		System.out.println(result);
+		return result;
+	}
+
+	@Override
+	public ServiceResult modifyBuyer(BuyerVO buyer) {
+		ServiceResult result = null;
+		int updateRes = dao.updateBuyer(buyer);
+		if(updateRes>0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAILED;
+		}
 		return result;
 	}
 }
