@@ -12,36 +12,23 @@ import kr.or.ddit.vo.BuyerVO;
 import kr.or.ddit.vo.PagingInfoVO;
 
 public class BuyerDAOImpl implements IBuyerDAO{
-	SqlSessionFactory sqlSessionFactory = CustomSqlSessionFactoryBuilder.getSqlSessionFactory();
-			
+
 	@Override
 	public List<BuyerVO> selectBuyerList(PagingInfoVO pagingVO) {
-		try(
-				SqlSession session = sqlSessionFactory.openSession();
-		){
-				IBuyerDAO mapper = session.getMapper(IBuyerDAO.class);
-				return mapper.selectBuyerList(pagingVO);
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public long selectTotalRecord() {
-		try(
-				SqlSession session = sqlSessionFactory.openSession();
-		){
-				IBuyerDAO mapper = session.getMapper(IBuyerDAO.class);
-				return mapper.selectTotalRecord();
-		}
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public BuyerVO selectBuyer(String buyer_id) {
-		try(
-				SqlSession session = sqlSessionFactory.openSession();
-		){
-				IBuyerDAO mapper = session.getMapper(IBuyerDAO.class);
-				return mapper.selectBuyer(buyer_id);
-		}
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

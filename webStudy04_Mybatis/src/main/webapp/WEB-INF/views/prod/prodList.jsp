@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%--
 	PagingInfoVO<ProdVO> pagingVO = (PagingInfoVO)request.getAttribute("pagingVO");
 	List<ProdVO> prodList = pagingVO.getDataList();
@@ -138,17 +139,34 @@
 	</form>
 	<input type="button" class="btn btn-info" value="신규상품등록" 
 		onclick="location.href='${pageContext.request.contextPath}/prod/prodInsert.do';"/>
+		<input type="image" src="<c:url value='/images/korea.png'/>"
+onclick="location.href='?click=ko'" name="click" value="ko">
+<input type="image" src="<c:url value='/images/america.png'/>"
+	onclick="location.href='?click=en'" name="click" value="en">
+	<c:if test="${not empty param.click }">
+	
+	<fmt:setLocale value="${param.click }"/>
+	</c:if>
 	<table class="table">
 		<thead>
+		<fmt:bundle basename="kr.or.ddit.msgs.message">
 			<tr>
-				<th>상품코드</th>
-				<th>상품명</th>
-				<th>분류명</th>
-				<th>거래처명</th>
-				<th>판매가</th>
-				<th>상품개요</th>
-				<th>마일리지</th>
+				<th><fmt:message key="prod.prod_id"/></th>
+				<th><fmt:message key="prod.prod_name"/></th>
+				<th><fmt:message key="prod.prod_lgu"/></th>
+				<th><fmt:message key="prod.prod_buyer"/></th>
+				<th><fmt:message key="prod.prod_price"/></th>
+				<th><fmt:message key="prod.prod_outline"/></th>
+				<th><fmt:message key="prod.prod_mileage"/></th>
+<!-- 				<th>상품코드</th> -->
+<!-- 				<th>상품명</th> -->
+<!-- 				<th>분류명</th> -->
+<!-- 				<th>거래처명</th> -->
+<!-- 				<th>판매가</th> -->
+<!-- 				<th>상품개요</th> -->
+<!-- 				<th>마일리지</th> -->
 			</tr>
+		</fmt:bundle>
 		</thead>
 
 		<c:set var="prodList" scope="request" value="${pagingVO.dataList }"></c:set>

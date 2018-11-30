@@ -16,4 +16,6 @@ public interface IBuyerService {
 	public ServiceResult registBuyer(BuyerVO buyer);
 	
 	public ServiceResult removeBuyer(String buyer_id);	
+	
+	public ServiceResult modifyBuyer(BuyerVO buyer);
 }

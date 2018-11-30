@@ -113,6 +113,17 @@
 			<th>마일리지</th>
 			<td>${prod.prod_mileage }</td>
 		</tr>
+		
+		<tr>
+				<td colspan="2">
+				<input type="button" value="뒤로가기"/>
+				<c:if test="${mutable }">
+				<input type="submit" value="수정" /> 
+				<input type="reset" value="취소" />
+				 <input type="button" value="탈퇴" id="delBtn" />
+				 </c:if>
+				 </td>
+			</tr>
 	</table>
 	
 	<c:set var="authorized" value="false" scope="session"></c:set>

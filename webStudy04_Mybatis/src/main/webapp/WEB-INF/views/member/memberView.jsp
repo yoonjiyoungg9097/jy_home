@@ -65,8 +65,8 @@
 		<input type="hidden" name="mem_id" value="${member.mem_id}" />
 		<input type="hidden" name="mem_pass" />
 	</form>
-	<form action=""${pageContext.request.contextPath}/member/memberUpdate.do" method="post">
 	</c:if>
+	<form action="${pageContext.request.contextPath}/member/memberUpdate.do" method="post">
 		
 	<h4>회원정보 상세조회 및 수정폼</h4>
 		<table>

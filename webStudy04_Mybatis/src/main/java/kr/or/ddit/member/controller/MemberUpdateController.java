@@ -31,10 +31,6 @@ public class MemberUpdateController implements ICommandHandler {
 //		req.setCharacterEncoding("UTF-8");
 		//memberView.jsp에서 입력한 값을 담은 VO - 이 VO에서 파라미터 값들을 가져오기 위해서 선언해준다
 		MemberVO member = new MemberVO();
-		//request scope영역에 파라미터명을 "member" 키값으로 memberVO객체를 담아준다
-		//성공했을때는 값을 보내지 않고 응답을 해주는 redirect이지만
-		//실패했을때는 기존의 데이터를 가지고 가야하기 때문에 requst 스코프영역에 기존의 값을 담기위한 객체를 담아준다
-		req.setAttribute("member", member);
 		
 		try {
 			//memberVO의 파라미터를 맵형식으로 가져올수 있다
@@ -43,6 +39,10 @@ public class MemberUpdateController implements ICommandHandler {
 			//그 값이 존재하지 않을때 CommonException
 			throw new CommonException(e);
 		}
+		//request scope영역에 파라미터명을 "member" 키값으로 memberVO객체를 담아준다
+		//성공했을때는 값을 보내지 않고 응답을 해주는 redirect이지만
+		//실패했을때는 기존의 데이터를 가지고 가야하기 때문에 requst 스코프영역에 기존의 값을 담기위한 객체를 담아준다
+		req.setAttribute("member", member);
 		
 		
 		String goPage = null;

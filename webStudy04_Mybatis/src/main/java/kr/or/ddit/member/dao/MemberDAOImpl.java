@@ -54,7 +54,7 @@ public class MemberDAOImpl implements IMemberDAO {
 		){
 			IMemberDAO mapper = session.getMapper(IMemberDAO.class);
 			int result = mapper.updateMember(member);
-			session.commit();
+			if(result>0) {session.commit();}
 			return result;
 		}
 	}
@@ -66,7 +66,7 @@ public class MemberDAOImpl implements IMemberDAO {
 		){
 			IMemberDAO mapper = session.getMapper(IMemberDAO.class);
 			int result = mapper.deleteMember(mem_id);
-			if(result>0) session.commit();
+			if(result>0) {session.commit();}
 			return result;
 		}
 	}

@@ -139,7 +139,8 @@
 
 
 	<update id="updateMember" parameterType="memberVO">
-		update member set
+		update member 
+		set
 		mem_name=#{mem_name},
 		mem_zip=#{mem_zip},
 		mem_add1=#{mem_add1},
@@ -159,7 +160,7 @@
 		update member
 		set
 		mem_delete = 'Y'
-		where mem_id = #mem_id#
+		where mem_id = #{mem_id}
 	</delete>
 </mapper>
 

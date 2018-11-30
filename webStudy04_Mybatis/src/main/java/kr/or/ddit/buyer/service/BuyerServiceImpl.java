@@ -53,4 +53,10 @@ public class BuyerServiceImpl implements IBuyerService{
 		System.out.println(result);
 		return result;
 	}
+
+	@Override
+	public ServiceResult modifyBuyer(BuyerVO buyer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
