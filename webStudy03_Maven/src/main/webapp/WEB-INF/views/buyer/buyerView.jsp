@@ -64,7 +64,7 @@
 		<input type="hidden" name="buyer_id" value="<%=buyer.getBuyer_id()%>" />
 		<input type="hidden" name="buyer" value="윤지영" />
 	</form>
-	<form action="<%=request.getContextPath()%>/member/memberUpdate.do"
+	<form action="<%=request.getContextPath()%>/buyer/buyerUpdate.do"
 		method="post" name="viewForm" >
 		<%
 			}
