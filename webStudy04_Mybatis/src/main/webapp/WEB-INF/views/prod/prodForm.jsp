@@ -22,15 +22,17 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script type="text/javascript">
 	$(function(){
-	
-	<%
+	<c:if test="${not empty message}">
+		alert("${request.message}");
+	</c:if>
+	<%--
 		String message = (String)request.getAttribute("message");
 		if(StringUtils.isNotBlank(message)){
 			%>
 			alert("${request.message}");
 			<%
 		}
-	%>
+	--%>
 	$("[name$='date']").datepicker({
 		dateFormat:"yy-mm-dd"
 	});
@@ -69,7 +71,7 @@
 </script>
 </head>
 <body>
-	
+	<c:if test=""></c:if>
 	<form method="post">
 	<input type="hidden" name="prod_id" value="${prod.prod_id }"/>
 	<table>
@@ -96,14 +98,17 @@
 				<div class="input-group">
 					<select name="prod_lgu">
 						<option value="">분류선택</option>
-						<%
+						<c:forEach items="${lprodList }" var="lprod">
+								<option value='${lprod["LPROD_GU"] }'> ${lprod["lprod_nm"] }</option>
+						</c:forEach>
+						<%--
 							for(Map<String,Object> lprod : lprodList){
 								pageContext.setAttribute("lprod", lprod);
-								%> 
-								<option value='${lprod["LPROD_GU"] }'> ${lprod["lprod_nm"] }</option>
-								<%
+								--%> 
+<%-- 								<option value='${lprod["LPROD_GU"] }'> ${lprod["lprod_nm"] }</option> --%>
+								<%--
 							}
-						%>
+						--%>
 					</select>
 				</div>
 			</td>

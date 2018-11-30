@@ -25,17 +25,20 @@ public class ProdUpdateController implements ICommandHandler {
 
 	@Override
 	public String process(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		String method = req.getMethod();
+		String method = req.getMethod();//get/post중에 어떤 메ㅔ서드인지 request를 통해 가져온다 
 		IOtherDAO otherDAO = new OtherDAOImpl();
 		//lprodList값을 담아오지 않으면 nullpointexception
 		List<Map<String, Object>> lprodList = otherDAO.selectLprodList();
+		//lprodList파라미터명으로 request스코프 영역에 lprodList를 담아준다
 		req.setAttribute("lprodList", lprodList);
 		
 		
-		if("get".equalsIgnoreCase(method)) {
+		if("get".equalsIgnoreCase(method)) {//get메서드일때 여기로 와 실행해준다
 			//수정하기 위해 기존의 상품정보가 담겨있어야 한다 
 			String prod_id = req.getParameter("what");
-			if(StringUtils.isBlank(prod_id)) {
+			//어떤 상품인지 가져와야 되서 what이라는 파라미터로 가져온다
+			if(StringUtils.isBlank(prod_id)) {//prod_id가 null인지 검증
+				//만약 null이라면 에러 메세지를 보내준다
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				return null;
 			}
