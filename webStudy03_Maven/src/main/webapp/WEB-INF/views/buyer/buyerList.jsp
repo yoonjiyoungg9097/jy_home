@@ -22,7 +22,7 @@
 <body>
 <h4>buyer 목록</h4>
 <input type="button" class="button" value="신규등록"
-	onclick="location.href='<%=request.getContextPath()%>/buyer/buyerInsert.do';"	
+	onclick="location.href='<%=request.getContextPath()%>/buyer/buyerInsert.do'"	
 />
 <table class="table">
 	<thead class="thead-dark">

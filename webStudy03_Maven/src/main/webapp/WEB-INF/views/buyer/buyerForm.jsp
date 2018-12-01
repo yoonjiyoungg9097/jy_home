@@ -1,18 +1,24 @@
+<%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@page import="kr.or.ddit.vo.BuyerVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	BuyerVO buyer = new BuyerVO();
-	Map<String,String>errors = new HashMap();
+	BuyerVO buyer = (BuyerVO)request.getAttribute("buyer");
+	if(buyer==null)
+		buyer = new BuyerVO();
+	Map<String,String>errors = (Map)request.getAttribute("errors");
+	if(errors==null)
+	errors = new HashMap();
+	Map<String,String>lprodList = (Map)request.getAttribute("lprodList");
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title> k rel="stylesheet"
-href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<title>Insert title here</title> 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
 	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -32,16 +38,12 @@ href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	crossorigin="anonymous"></script>
 </head>
 <body>
+<form method="post"><!-- action이 없어서 현재페이지 경로를 쓰기 때문에 insert와 update를 구분해줄수 있다 -->
 	<table>
 		<tr>
-			<th>활동여부</th>
-			<td><input type="text" name="buyer_delete"
-				value="<%=buyer.getBuyer_delete()%>" /><span class="error"><%=errors.get("buyer_delete")%></span></td>
-		</tr>
-		<tr>
-			<th>판매자아이디</th>
-			<td><input type="text" name="buyer_id"
-				value="<%=buyer.getBuyer_id()%>" /><span class="error"><%=errors.get("buyer_id")%></span></td>
+			<th>판매처 아이디</th><%-- 판매자 아이디는 자동생성해주고 직접 입력받지 않기때문에 hidden으로 --%>
+			<td><input type="hidden" name="buyer_id"
+				value="<%=buyer.getBuyer_id()%>" /></td>
 		</tr>
 		<tr>
 			<th>판매처명</th>
@@ -50,8 +52,19 @@ href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		</tr>
 		<tr>
 			<th>엘지유</th>
-			<td><input type="text" name="buyer_lgu"
-				value="<%=buyer.getBuyer_lgu()%>" /><span class="error"><%=errors.get("buyer_lgu")%></span></td>
+			<td>
+				<select name="buyer_lgu">
+					
+					<%
+						for(Entry entry:lprodList.entrySet()){
+							%>
+							<option value='<%=entry.getKey()%>'><%=entry.getValue() %></option>
+							<% 
+						}
+					%>
+					
+				</select>
+				<span class="error"><%=errors.get("buyer_lgu")%></span></td>
 		</tr>
 		<tr>
 			<th>은행</th>
@@ -103,6 +116,16 @@ href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			<td><input type="text" name="buyer_charger"
 				value="<%=buyer.getBuyer_charger()%>" /><span class="error"><%=errors.get("buyer_charger")%></span></td>
 		</tr>
+		
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="전송"/>
+				<input type="reset" value="취소"/>
+				<input type="button" value="목록으로"
+					onclick="location.href='<%=request.getContextPath()%>/buyer/buyerList.do';"/>
+			</td>
+		</tr>
 	</table>
+	</form>
 </body>
 </html>

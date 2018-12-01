@@ -43,8 +43,8 @@ public class ProdInsertController implements ICommandHandler {
 				throw new RuntimeException(e);
 			}
 			Map<String, String>errors = new HashMap<>();
-			req.setAttribute("errors", errors);//객체일때만 setattribute가능하고 값 즉 객체가 아닐땐 불가능
-			boolean valid = validate(prod,errors);//callbyreference
+			req.setAttribute("errors", errors);//객체일때만 setattribute가능하고 값 즉 객체가 아닐땐 불가능//callbyreference
+			boolean valid = validate(prod,errors);
 			String view = null;
 			if(valid) {
 				IProdService service = new ProdServiceImpl();
