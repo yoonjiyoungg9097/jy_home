@@ -60,7 +60,7 @@
 	</select>
 
 
-	<resultMap type="memberVO" id="memberMap">
+	<resultMap type="memberVO" id="memberMap" autoMapping="true">
 		<id property="mem_id" column="MEM_ID" />
 		<result property="mem_pass" column="MEM_PASS" />
 		<result property="mem_name" column="MEM_NAME" />

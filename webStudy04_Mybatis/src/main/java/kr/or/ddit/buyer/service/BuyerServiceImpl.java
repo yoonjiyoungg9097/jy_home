@@ -30,7 +30,15 @@ public class BuyerServiceImpl implements IBuyerService{
 	@Override
 	public ServiceResult registBuyer(BuyerVO buyer) {
 		ServiceResult result = null;
-		return null;
+		BuyerVO buyerInfo = dao.selectBuyer(buyer.getBuyer_id());
+		
+		int insertRes = dao.insertBuyer(buyer);
+		if(insertRes>0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
 	}
 
 	@Override
@@ -56,7 +64,21 @@ public class BuyerServiceImpl implements IBuyerService{
 
 	@Override
 	public ServiceResult modifyBuyer(BuyerVO buyer) {
-		// TODO Auto-generated method stub
-		return null;
+		//먼저 모든 바이어들을 가져와서 db에 존재하는 바이어인지 존재하지 않는 바이어인지 검증해준다
+		//존재하지 않는 바이어라면 PKNOTFOUND
+		ServiceResult result = null;
+		BuyerVO buyerInfo = dao.selectBuyer(buyer.getBuyer_id());
+		if(buyerInfo==null) {
+			result = ServiceResult.PKNOTFOUND;
+		}
+		//바이어의 정보가 담긴 vo을 다오에 보내준다
+		//그 결과가 0보다 클때 성공 아니면 실패
+		int updateRes = dao.updateBuyer(buyer);
+		if(updateRes>0) {
+			result = ServiceResult.OK;
+		}else {
+			result = ServiceResult.FAILED;
+		}
+		return result;
 	}
 }

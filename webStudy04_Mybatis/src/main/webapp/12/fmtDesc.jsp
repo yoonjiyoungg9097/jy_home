@@ -20,7 +20,7 @@ input[type='image'] {
 </head>
 <body>
 	<h4>국제화 태그 (format 태그, fmt 태그)</h4>
-	<input type="image" src="<c:url value='/images/korea.png'/>"
+	<input type="image" src="<c:url value='/images/korea.png'/>"<%-- contextPath가 필요하지 않다 --%>
 		onclick="location.href='?click=ko_KR'" name="click" value="ko">
 	<input type="image" src="<c:url value='/images/america.png'/>"
 		onclick="location.href='?click=en_US'" name="click" value="en">

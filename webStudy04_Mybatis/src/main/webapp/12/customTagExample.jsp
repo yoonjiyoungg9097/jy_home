@@ -14,6 +14,5 @@
 	<hr/>
 	<c:set var="test" value="locParm"/>
 	<ms:makeLocaleSelect name="${test }"/>
-	<ms:MakeTimeZoneSelectTag onchange="" name="${ }"/>
 </body>
 </html>
